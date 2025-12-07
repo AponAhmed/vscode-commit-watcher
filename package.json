@@ -1,0 +1,61 @@
+{
+    "name": "remote-commit-watcher",
+    "publisher": "remote-commit-watcher",
+    "displayName": "Remote Commit Watcher",
+    "description": "Checks if the remote GitHub branch has new commits compared to the local branch.",
+    "version": "0.0.1",
+    "icon": "images/icon.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/remote-commit-watcher/remote-commit-watcher"
+    },
+    "readme": "README.md",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "remoteCommitWatcher.checkNow",
+                "title": "Remote Commit Watcher: Check for Updates"
+            }
+        ],
+        "configuration": {
+            "title": "Remote Commit Watcher",
+            "properties": {
+                "remoteCommitWatcher.checkInterval": {
+                    "type": "number",
+                    "default": 30,
+                    "description": "Interval in seconds to check for remote commits.",
+                    "minimum": 10
+                },
+                "remoteCommitWatcher.notificationPersistence": {
+                    "type": "string",
+                    "enum": [
+                        "auto-dismiss",
+                        "persistent"
+                    ],
+                    "default": "auto-dismiss",
+                    "description": "Controls whether the notification automatically disappears or stays until dismissed."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.80.0",
+        "@types/node": "^16.11.7",
+        "typescript": "^5.1.3"
+    }
+}
