@@ -1,10 +1,11 @@
 {
     "name": "remote-commit-watcher",
-    "publisher": "remote-commit-watcher",
+    "publisher": "MuhiminulHaque",
     "displayName": "Remote Commit Watcher",
     "description": "Checks if the remote GitHub branch has new commits compared to the local branch.",
     "version": "0.0.1",
     "icon": "images/icon.png",
+    "author": "MuhiminulHaque",
     "repository": {
         "type": "git",
         "url": "https://github.com/remote-commit-watcher/remote-commit-watcher"
@@ -44,6 +45,17 @@
                     ],
                     "default": "auto-dismiss",
                     "description": "Controls whether the notification automatically disappears or stays until dismissed."
+                },
+                "remoteCommitWatcher.bitbucketUsername": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Bitbucket username for authentication (if needed for private repos)."
+                },
+                "remoteCommitWatcher.bitbucketAppPassword": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Bitbucket App Password for authentication.",
+                    "format": "password"
                 }
             }
         }

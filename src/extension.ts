@@ -1,5 +1,7 @@
 import * as vscode from 'vscode';
 import { GitHubService } from './githubService';
+import { BitbucketService } from './bitbucketService';
+import { GitProvider, RemoteInfo } from './gitProvider';
 
 // Define the Git extension API types lightly to avoid adding the full git.d.ts dependency manually if not present
 // usage: vscode.extensions.getExtension('vscode.git').exports.getAPI(1)
@@ -118,16 +120,28 @@ async function checkForUpdates(manual: boolean = false) {
         return;
     }
 
-    const remoteInfo = GitHubService.parseGitRemote(origin.fetchUrl);
-    if (!remoteInfo) {
+    // Determine provider
+    const providers: GitProvider[] = [new GitHubService(), new BitbucketService()];
+    let provider: GitProvider | undefined;
+    let remoteInfo: RemoteInfo | null = null;
+
+    for (const p of providers) {
+        remoteInfo = p.parseGitRemote(origin.fetchUrl);
+        if (remoteInfo) {
+            provider = p;
+            break;
+        }
+    }
+
+    if (!provider || !remoteInfo) {
         if (manual) {
-            vscode.window.showWarningMessage(`Could not parse GitHub URL: ${origin.fetchUrl}`);
+            vscode.window.showWarningMessage(`Could not parse remote URL: ${origin.fetchUrl}. Only GitHub and Bitbucket are supported.`);
         }
         return;
     }
 
     // Check remote
-    const remoteCommit = await GitHubService.getLatestRemoteCommit(remoteInfo.owner, remoteInfo.repo, localBranch);
+    const remoteCommit = await provider.getLatestCommit(remoteInfo.owner, remoteInfo.repo, localBranch);
 
     if (remoteCommit) {
         if (remoteCommit.sha !== localSha) {
@@ -154,7 +168,7 @@ async function checkForUpdates(manual: boolean = false) {
         }
     } else {
         if (manual) {
-            vscode.window.showErrorMessage('Failed to fetch remote branch info.');
+            vscode.window.showErrorMessage('Failed to fetch remote branch info. Check console for errors.');
         }
     }
 }

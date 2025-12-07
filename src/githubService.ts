@@ -1,24 +1,14 @@
 import { authentication, window } from 'vscode';
 import * as https from 'https';
+import { GitProvider, RemoteInfo, CommitInfo } from './gitProvider';
 
-export interface RemoteInfo {
-    owner: string;
-    repo: string;
-}
-
-export interface CommitInfo {
-    sha: string;
-    committerName: string;
-    commitDate: string;
-}
-
-export class GitHubService {
+export class GitHubService implements GitProvider {
 
     /**
      * Parses a git remote URL to extract owner and repo name.
      * Supports HTTPS and SSH formats.
      */
-    static parseGitRemote(url: string): RemoteInfo | null {
+    parseGitRemote(url: string): RemoteInfo | null {
         // Remove .git suffix if present
         const cleanUrl = url.endsWith('.git') ? url.slice(0, -4) : url;
 
@@ -42,7 +32,7 @@ export class GitHubService {
     /**
      * Fetches the latest commit details for a given branch on GitHub.
      */
-    static async getLatestRemoteCommit(owner: string, repo: string, branch: string): Promise<CommitInfo | null> {
+    async getLatestCommit(owner: string, repo: string, branch: string): Promise<CommitInfo | null> {
         return new Promise((resolve) => {
             const options: https.RequestOptions = {
                 hostname: 'api.github.com',
