@@ -1,41 +1,53 @@
-# Remote Commit Watcher
+# Git Commit Watcher
 
-Automatically checks for new commits on the remote GitHub branch compared to your local branch and notifies you with details.
+A VS Code extension that keeps you updated with the latest remote Git commits without pulling them automatically. Perfect for staying in sync with your team while working on your local branch.
 
-## Features
+## 🚀 Features
 
-- **Automated Polling**: Checks for remote updates at a configurable interval.
-- **Detailed Notifications**: improving your workflow by displaying:
-  - Committer Name
-  - Commit Hash
-  - Commit Time
-- **Manual Check**: Command to force a check immediately.
-- **Configurable**: Customize polling interval and notification behavior.
+### 🔔 Smart Notifications
+*   **Automatic Detection**: Checks for new remote commits periodically (default: every 30 seconds).
+*   **Detailed Alerts**: persistent notifications show commit hash, message, author, and full date/time.
+*   **Multiple Commits**: Handles multiple unpulled commits, listing up to 3 details in the notification.
 
-## Extension Settings
+### 📊 Status Bar Indicator
+*   **Visual Warning**: Displays a yellow warning indicator in the status bar when your local branch is behind.
+*   **Committer Names**: Shows exactly who pushed the changes (e.g., `$(cloud-download) Remote: John Doe, Jane Smith`).
+*   **Quick Access**: Click the indicator to view full commit details.
+*   **Auto-Hide**: Automatically disappears when you pull the changes and are back in sync.
 
-This extension contributes the following settings:
+### 🛡️ Safe & Non-Intrusive
+*   **No Auto-Pulling**: Uses `git fetch` to update remote tracking branches safely without merging or modifying your working directory.
+*   **Logging**: Comprehensive logs available in the "Git Last Commit - Logs" output channel for troubleshooting.
 
-* `remoteCommitWatcher.checkInterval`: Interval in seconds to check for remote commits (default: 30 seconds).
-* `remoteCommitWatcher.notificationPersistence`: Controls notification behavior:
-    * `auto-dismiss`: Notification disappears automatically after a few seconds (default).
-    * `persistent`: Notification stays until you dismiss it (Modal).
+## ⚙️ Configuration
 
-## Requirements
+You can customize the check interval in your VS Code settings:
 
-- VS Code 1.80.0 or higher.
-- A GitHub repository opened in VS Code.
+*   **`gitLastCommit.checkInterval`**: Interval in seconds to check for specific remote commits.
+    *   *Default*: `30` seconds.
 
-## Known Issues
+## 🎮 Commands
 
-- Currently only supports repositories hosted on GitHub.
-- Requires `git` to be installed and available in the system path.
+*   **Git: Show Remote Commit Details** (`gitLastCommit.showRemoteDetails`): Manually check and display information about the latest remote commit.
+*   **Git: Start Checking for Remote Commits** (`gitLastCommit.startChecking`): Manually start the periodic background check (Auto-starts by default).
+*   **Git: Stop Checking for Remote Commits** (`gitLastCommit.stopChecking`): Stop the background check.
 
-## Release Notes
+## 📝 Usage
 
-### 0.0.1
+1.  Open a project with a Git repository.
+2.  The extension automatically starts checking for remote changes.
+3.  If a teammate pushes code to the remote branch you are working on:
+    *   A **Notification** appears with the commit details.
+    *   A **Status Bar** item appears showing the committer's name.
+4.  Perform a `git pull` in your terminal or via VS Code to sync.
+5.  The notification stops appearing and the status bar item hides.
 
-Inital release with:
-- Remote polling.
-- Detailed commit notifications.
-- Settings for interval and persistence.
+## 🔧 troubleshooting
+
+If notifications aren't appearing:
+1.  Open the **Output** panel (`Ctrl+Shift+U`).
+2.  Select **"Git Last Commit - Logs"** from the dropdown.
+3.  Check for any error messages or connection issues.
+
+---
+**Enjoy staying in sync!**
