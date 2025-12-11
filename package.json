@@ -2,7 +2,7 @@
   "name": "vscode-commit-watcher",
   "displayName": "Git Commit Watcher",
   "description": "Show last Git commit info for the current workspace or selected repository.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "MuhiminulHaque",
   "author": {
     "name": "Muhiminul Haque",
